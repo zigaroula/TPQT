@@ -275,20 +275,27 @@ void DrawZone::setShape(QPainterPath savedPath, QPen savedPen) {
 }
 
 void DrawZone::debutSelection() {
-    selectionBool = true;
+    debut = cursorPos(this);
+    fin = cursorPos(this);
     selectionPath = QPainterPath();
     selectionPath.addEllipse(cursorPos(this).x()-5,cursorPos(this).y()-5,10,10);
     QList<Shape>::iterator i;
     for (i = displayList.begin(); i != displayList.end(); i++) {
         if (selectionPath.intersects((*i).path)) {
             indexSelection = i;
+            selectionBool = true;
         }
     }
     update();
 }
 
 void DrawZone::moveSelection() {
-
+    if (selectionBool) {
+        fin = cursorPos(this);
+        (*indexSelection).path.translate(fin.x()-debut.x(), fin.y()-debut.y());
+        update();
+        debut = cursorPos(this);
+    }
 }
 
 void DrawZone::endSelection() {
