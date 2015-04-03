@@ -5,6 +5,7 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 
     ui->setupUi(this);
+    colorDialog = new QColorDialog();
     QMenuBar * menuBar = this->menuBar( );
     QMenu * fileMenu = menuBar->addMenu( tr ("&Fichier") );
     QAction * open = new QAction( QIcon(":/icone/open.png"), tr("&Open..."), this);
@@ -115,6 +116,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     selection = shapeGroup->addAction(QIcon(":/icone/cursor.png"), tr("&Selection"));
     shape->addAction(selection);
     //toolBar->addAction(selection);
+
+    // Slider
+    QSlider * slider = new QSlider();
+    slider->setRange(0, 10);
+    slider->setOrientation(Qt::Horizontal);
+    ui->toolBar_2->addWidget(slider);
+    connect(slider, SIGNAL(valueChanged(int)), this, SLOT(widthUI(int)));
 }
 
 MainWindow::~MainWindow() {
@@ -227,4 +235,18 @@ void MainWindow::changeShape(QAction * sender) {
     else if (sender == selection || sender == ui->actionSelection) {
         drawZone->changeShape(SELECTION);
     }
+}
+
+void MainWindow::colorUI() {
+    colorDialog->open(this, SLOT(selectColor()));
+}
+
+void MainWindow::selectColor() {
+    QColor couleur;
+    couleur = colorDialog->selectedColor();
+    drawZone->setCouleur(couleur);
+}
+
+void MainWindow::widthUI(int width) {
+    drawZone->setWidth(width);
 }

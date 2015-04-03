@@ -2,7 +2,7 @@
 
 DrawZone::DrawZone(QWidget *parent) : QWidget(parent) {
     this->setMouseTracking(true);
-    this->setMinimumSize(800, 800);
+    this->setMinimumSize(400, 400);
     lineStyle = Qt::SolidLine;
     lineWidth = 0;
     lineColor = QColor("#000000");
@@ -301,4 +301,20 @@ void DrawZone::moveSelection() {
 void DrawZone::quitSelection() {
     indexSelection = QList<Shape>::iterator();
     selectionBool = false;
+}
+
+void DrawZone::setCouleur(QColor couleur) {
+    lineColor = couleur;
+    if (selectionBool) {
+        (*indexSelection).pen.setColor(lineColor);
+    }
+    update();
+}
+
+void DrawZone::setWidth(int width) {
+    lineWidth = width;
+    if (selectionBool) {
+        (*indexSelection).pen.setWidth(lineWidth);
+    }
+    update();
 }

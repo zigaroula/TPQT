@@ -14,5 +14,6 @@
         <file>polygone.png</file>
         <file>cursor.png</file>
         <file>back.png</file>
+        <file>color.png</file>
     </qresource>
 </RCC>

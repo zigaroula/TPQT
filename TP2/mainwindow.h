@@ -24,6 +24,7 @@ private:
     QAction* style1, * style2, * style3;
     QAction* delete1, * nouveau;
     QAction* trait, * rectangle, * ellipse, * polyline, * polygone, *selection;
+    QColorDialog * colorDialog;
 
 public slots:
     void openFile();
@@ -34,6 +35,9 @@ public slots:
     void width(QAction*);
     void deleteShape(QAction*);
     void changeShape(QAction*);
+    void colorUI();
+    void selectColor();
+    void widthUI(int);
 };
 
 #endif // MAINWINDOW_H

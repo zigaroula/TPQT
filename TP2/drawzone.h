@@ -15,6 +15,7 @@
 #include <QAction>
 #include <string>
 #include <QList>
+#include <QColorDialog>
 #include "Transitions.h"
 
 enum Param{ ROUGE, VERT, BLEU, NOIR,
@@ -40,6 +41,8 @@ public:
     void changeShape(int);
     QList<Shape> getList();
     void setShape(QPainterPath, QPen);
+    void setCouleur(QColor);
+    void setWidth(int);
 
 protected:
     virtual void paintEvent ( QPaintEvent* );

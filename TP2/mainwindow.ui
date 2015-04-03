@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>499</width>
-    <height>525</height>
+    <height>463</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,6 +36,7 @@
    <addaction name="actionEllipse"/>
    <addaction name="actionPolyline"/>
    <addaction name="actionPolygone"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -46,6 +47,18 @@
      <height>21</height>
     </rect>
    </property>
+  </widget>
+  <widget class="QToolBar" name="toolBar_2">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionCouleur"/>
   </widget>
   <action name="actionNouveau">
    <property name="icon">
@@ -151,6 +164,9 @@
    <property name="toolTip">
     <string>Ellipse</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
   </action>
   <action name="actionPolyline">
    <property name="icon">
@@ -195,6 +211,21 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionCouleur">
+   <property name="icon">
+    <iconset resource="images/Icones.qrc">
+     <normaloff>:/icone/color.png</normaloff>:/icone/color.png</iconset>
+   </property>
+   <property name="text">
+    <string>Couleur</string>
+   </property>
+   <property name="toolTip">
+    <string>Couleur</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
    </property>
   </action>
  </widget>
@@ -283,6 +314,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionCouleur</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>colorUI()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>231</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>quitApp()</slot>
@@ -290,5 +337,6 @@
   <slot>saveFile()</slot>
   <slot>deleteShape(QAction*)</slot>
   <slot>changeShape(QAction*)</slot>
+  <slot>colorUI()</slot>
  </slots>
 </ui>
