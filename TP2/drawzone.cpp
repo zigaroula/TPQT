@@ -63,7 +63,7 @@ DrawZone::DrawZone(QWidget *parent) : QWidget(parent) {
     selectionMove = new QState(selection);
     addMouseTrans(selectionClick, selectionMove, this, QEvent::MouseButtonPress, Qt::LeftButton, this, SLOT(debutSelection()));
     addMouseTrans(selectionMove, selectionMove, this, QEvent::MouseMove, Qt::NoButton, this, SLOT(moveSelection()));
-    addMouseTrans(selectionMove, selectionClick, this, QEvent::MouseButtonRelease, Qt::LeftButton, this, SLOT(endSelection()));
+    addMouseTrans(selectionMove, selectionClick, this, QEvent::MouseButtonRelease, Qt::LeftButton);
     selection->setInitialState(selectionClick);
 
     // Machine
@@ -296,10 +296,6 @@ void DrawZone::moveSelection() {
         update();
         debut = cursorPos(this);
     }
-}
-
-void DrawZone::endSelection() {
-
 }
 
 void DrawZone::quitSelection() {

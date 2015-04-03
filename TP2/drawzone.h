@@ -85,7 +85,6 @@ public slots:
     void endPolygone();
     void debutSelection();
     void moveSelection();
-    void endSelection();
     void quitSelection();
 };
 

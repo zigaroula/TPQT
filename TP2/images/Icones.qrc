@@ -10,5 +10,9 @@
         <file>ellipse.png</file>
         <file>rectangle.png</file>
         <file>trait.png</file>
+        <file>polyline.png</file>
+        <file>polygone.png</file>
+        <file>cursor.png</file>
+        <file>back.png</file>
     </qresource>
 </RCC>

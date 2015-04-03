@@ -10,10 +10,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QAction * open = new QAction( QIcon(":/icone/open.png"), tr("&Open..."), this);
     QAction * save = new QAction( QIcon(":/icone/save.png"), tr("&Save..."), this);
     QAction * quit = new QAction( QIcon(":/icone/quit.png"), tr("&Quit..."), this);
-    QToolBar * toolBar = this->addToolBar( tr("Fichier") );
+    //QToolBar * toolBar = this->addToolBar( tr("Fichier") );
     drawZone = new DrawZone(this);
 
     setCentralWidget(drawZone);
+
+    // Suppression
+    QActionGroup * deleteGroup = new QActionGroup(this);
+    connect(deleteGroup, SIGNAL(triggered(QAction*)), this, SLOT(deleteShape(QAction*)));
+    delete1 = deleteGroup->addAction(QIcon(":/icone/back.png"), tr("Retour"));
+    nouveau = deleteGroup->addAction(QIcon(":/icone/open.png"), tr("Nouveau"));
 
     // Boutons generaux
     open->setShortcut( tr("Ctrl+O"));
@@ -25,12 +31,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     open->setStatusTip( tr("Open a file"));
     save->setStatusTip( tr("Save a file"));
     quit->setStatusTip( tr("Quit"));
+    fileMenu->addAction(nouveau);
     fileMenu->addAction(open);
     fileMenu->addAction(save);
+    fileMenu->addAction(delete1);
     fileMenu->addAction(quit);
-    toolBar->addAction(open);
-    toolBar->addAction(save);
-    toolBar->addAction(quit);
+    //toolBar->addAction(open);
+    //toolBar->addAction(save);
+    //toolBar->addAction(quit);
     connect(open, SIGNAL(triggered()), this, SLOT(openFile()));
     connect(save, SIGNAL(triggered()), this, SLOT(saveFile()));
     connect(quit, SIGNAL(triggered()), this, SLOT(quitApp()));
@@ -83,15 +91,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     width3->setCheckable(true);
     width1->setChecked(true);
 
-    // Suppression
-    QMenu * deleteShape = menuBar->addMenu(tr("&Supprimer..."));
-    QActionGroup * deleteGroup = new QActionGroup(this);
-    connect(deleteGroup, SIGNAL(triggered(QAction*)), this, SLOT(deleteShape(QAction*)));
-    delete1 = deleteGroup->addAction(tr("... la &dernière forme"));
-    deleteAll = deleteGroup->addAction(tr("... &toutes les formes"));
-    deleteShape->addAction(delete1);
-    deleteShape->addAction(deleteAll);
-
     // Forme
     QMenu * shape = menuBar->addMenu(tr("&Forme"));
     QActionGroup * shapeGroup = new QActionGroup(this);
@@ -99,23 +98,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     trait = shapeGroup->addAction(QIcon(":/icone/trait.png"), tr("&Trait"));
     rectangle = shapeGroup->addAction(QIcon(":/icone/rectangle.png"), tr("&Rectangle"));
     ellipse = shapeGroup->addAction(QIcon(":/icone/ellipse.png"), tr("&Ellipse"));
-    polyline = shapeGroup->addAction(tr("&Polyline"));
-    polygone = shapeGroup->addAction(tr("Poly&gone"));
+    polyline = shapeGroup->addAction(QIcon(":/icone/polyline.png"), tr("&Polyline"));
+    polygone = shapeGroup->addAction(QIcon(":/icone/polygone.png"), tr("Poly&gone"));
     shape->addAction(trait);
     shape->addAction(rectangle);
     shape->addAction(ellipse);
     shape->addAction(polyline);
     shape->addAction(polygone);
-    toolBar->addAction(trait);
-    toolBar->addAction(rectangle);
-    toolBar->addAction(ellipse);
-    toolBar->addAction(polyline);
-    toolBar->addAction(polygone);
+    //toolBar->addAction(trait);
+    //toolBar->addAction(rectangle);
+    //toolBar->addAction(ellipse);
+    //toolBar->addAction(polyline);
+    //toolBar->addAction(polygone);
 
     // Selection
-    selection = shapeGroup->addAction(tr("&Selection"));
+    selection = shapeGroup->addAction(QIcon(":/icone/cursor.png"), tr("&Selection"));
     shape->addAction(selection);
-    toolBar->addAction(selection);
+    //toolBar->addAction(selection);
 }
 
 MainWindow::~MainWindow() {
@@ -201,31 +200,31 @@ void MainWindow::width(QAction* sender) {
 }
 
 void MainWindow::deleteShape(QAction * sender) {
-    if (sender == delete1){
+    if (sender == delete1 || sender == ui->actionRetour){
         drawZone->deleteShape(DELETE1);
     }
-    else if (sender == deleteAll) {
+    else if (sender == nouveau || sender == ui->actionNouveau) {
         drawZone->deleteShape(DELETEALL);
     }
 }
 
 void MainWindow::changeShape(QAction * sender) {
-    if (sender == trait) {
+    if (sender == trait || sender == ui->actionTrait) {
         drawZone->changeShape(TRAIT);
     }
-    else if (sender == rectangle) {
+    else if (sender == rectangle || sender == ui->actionRectangle) {
         drawZone->changeShape(RECTANGLE);
     }
-    else if (sender == ellipse) {
+    else if (sender == ellipse || sender == ui->actionEllipse) {
         drawZone->changeShape(ELLIPSE);
     }
-    else if (sender == polyline) {
+    else if (sender == polyline || sender == ui->actionPolyline) {
         drawZone->changeShape(POLYLINE);
     }
-    else if (sender == polygone) {
+    else if (sender == polygone || sender == ui->actionPolygone) {
         drawZone->changeShape(POLYGONE);
     }
-    else if (sender == selection) {
+    else if (sender == selection || sender == ui->actionSelection) {
         drawZone->changeShape(SELECTION);
     }
 }

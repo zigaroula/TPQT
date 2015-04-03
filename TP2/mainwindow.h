@@ -22,7 +22,7 @@ private:
     QAction * rouge, * vert, * bleu, * noir;
     QAction* width1, * width2, * width3;
     QAction* style1, * style2, * style3;
-    QAction* delete1, * deleteAll;
+    QAction* delete1, * nouveau;
     QAction* trait, * rectangle, * ellipse, * polyline, * polygone, *selection;
 
 public slots:

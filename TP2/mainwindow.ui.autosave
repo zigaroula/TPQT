@@ -36,6 +36,7 @@
    <addaction name="actionEllipse"/>
    <addaction name="actionPolyline"/>
    <addaction name="actionPolygone"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
