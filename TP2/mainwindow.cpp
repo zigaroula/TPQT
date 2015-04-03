@@ -1,0 +1,231 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+using namespace std;
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+
+    ui->setupUi(this);
+    QMenuBar * menuBar = this->menuBar( );
+    QMenu * fileMenu = menuBar->addMenu( tr ("&Fichier") );
+    QAction * open = new QAction( QIcon(":/icone/open.png"), tr("&Open..."), this);
+    QAction * save = new QAction( QIcon(":/icone/save.png"), tr("&Save..."), this);
+    QAction * quit = new QAction( QIcon(":/icone/quit.png"), tr("&Quit..."), this);
+    QToolBar * toolBar = this->addToolBar( tr("Fichier") );
+    drawZone = new DrawZone(this);
+
+    setCentralWidget(drawZone);
+
+    // Boutons generaux
+    open->setShortcut( tr("Ctrl+O"));
+    save->setShortcut( tr("Ctrl+S"));
+    quit->setShortcut( tr("Ctrl+Q"));
+    open->setToolTip( tr("Open a file"));
+    save->setToolTip( tr("Save a file"));
+    quit->setToolTip( tr("Quit"));
+    open->setStatusTip( tr("Open a file"));
+    save->setStatusTip( tr("Save a file"));
+    quit->setStatusTip( tr("Quit"));
+    fileMenu->addAction(open);
+    fileMenu->addAction(save);
+    fileMenu->addAction(quit);
+    toolBar->addAction(open);
+    toolBar->addAction(save);
+    toolBar->addAction(quit);
+    connect(open, SIGNAL(triggered()), this, SLOT(openFile()));
+    connect(save, SIGNAL(triggered()), this, SLOT(saveFile()));
+    connect(quit, SIGNAL(triggered()), this, SLOT(quitApp()));
+
+    // Style
+    QMenu * style = menuBar->addMenu(tr("&Style"));
+    QActionGroup * styleGroup = new QActionGroup(this);
+    connect(styleGroup, SIGNAL(triggered(QAction*)), this, SLOT(style(QAction*)));
+    style1 = styleGroup->addAction(tr("&SolidLine"));
+    style2 = styleGroup->addAction(tr("&DashLine"));
+    style3 = styleGroup->addAction(tr("D&otLine"));
+    style->addAction(style1);
+    style->addAction(style2);
+    style->addAction(style3);
+    style1->setCheckable(true);
+    style2->setCheckable(true);
+    style3->setCheckable(true);
+    style1->setChecked(true);
+
+    // Couleur
+    QMenu * color = menuBar->addMenu( tr("&Couleur") );
+    QActionGroup * colorGroup = new QActionGroup(this);
+    connect(colorGroup, SIGNAL(triggered(QAction*)), this, SLOT(color(QAction*)));
+    rouge = colorGroup->addAction(tr("&Rouge"));
+    bleu = colorGroup->addAction(tr("&Bleu"));
+    vert = colorGroup->addAction(tr("&Vert"));
+    noir = colorGroup->addAction(tr("&Noir"));
+    color->addAction(rouge);
+    color->addAction(bleu);
+    color->addAction(vert);
+    color->addAction(noir);
+    rouge->setCheckable(true);
+    bleu->setCheckable(true);
+    vert->setCheckable(true);
+    noir->setCheckable(true);
+    noir->setChecked(true);
+
+    // Taille
+    QMenu * width = menuBar->addMenu(tr("&Largeur"));
+    QActionGroup * widthGroup = new QActionGroup(this);
+    connect(widthGroup, SIGNAL(triggered(QAction*)), this, SLOT(width(QAction*)));
+    width1 = widthGroup->addAction(tr("&0"));
+    width2 = widthGroup->addAction(tr("&3"));
+    width3 = widthGroup->addAction(tr("&6"));
+    width->addAction(width1);
+    width->addAction(width2);
+    width->addAction(width3);
+    width1->setCheckable(true);
+    width2->setCheckable(true);
+    width3->setCheckable(true);
+    width1->setChecked(true);
+
+    // Suppression
+    QMenu * deleteShape = menuBar->addMenu(tr("&Supprimer..."));
+    QActionGroup * deleteGroup = new QActionGroup(this);
+    connect(deleteGroup, SIGNAL(triggered(QAction*)), this, SLOT(deleteShape(QAction*)));
+    delete1 = deleteGroup->addAction(tr("... la &dernière forme"));
+    deleteAll = deleteGroup->addAction(tr("... &toutes les formes"));
+    deleteShape->addAction(delete1);
+    deleteShape->addAction(deleteAll);
+
+    // Forme
+    QMenu * shape = menuBar->addMenu(tr("&Forme"));
+    QActionGroup * shapeGroup = new QActionGroup(this);
+    connect(shapeGroup, SIGNAL(triggered(QAction*)), this, SLOT(changeShape(QAction*)));
+    trait = shapeGroup->addAction(QIcon(":/icone/trait.png"), tr("&Trait"));
+    rectangle = shapeGroup->addAction(QIcon(":/icone/rectangle.png"), tr("&Rectangle"));
+    ellipse = shapeGroup->addAction(QIcon(":/icone/ellipse.png"), tr("&Ellipse"));
+    polyline = shapeGroup->addAction(tr("&Polyline"));
+    polygone = shapeGroup->addAction(tr("Poly&gone"));
+    shape->addAction(trait);
+    shape->addAction(rectangle);
+    shape->addAction(ellipse);
+    shape->addAction(polyline);
+    shape->addAction(polygone);
+    toolBar->addAction(trait);
+    toolBar->addAction(rectangle);
+    toolBar->addAction(ellipse);
+    toolBar->addAction(polyline);
+    toolBar->addAction(polygone);
+
+    // Selection
+    selection = shapeGroup->addAction(tr("&Selection"));
+    shape->addAction(selection);
+    toolBar->addAction(selection);
+}
+
+MainWindow::~MainWindow() {
+    delete ui;
+}
+
+void MainWindow::openFile() {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "../TP2/files", tr("All Files (*)"));
+    QFile file(fileName);
+    file.open(QIODevice::ReadOnly);
+    QDataStream stream(&file);
+    int taille, i;
+    stream >> taille;
+    for (i = 0 ; i < taille ; i++) {
+        QPainterPath savedPath;
+        stream >> savedPath;
+        QPen savedPen;
+        stream >> savedPen;
+        drawZone->setShape(savedPath, savedPen);
+    }
+    qDebug() << "Opened the file " << qPrintable(fileName) << endl;
+}
+
+void MainWindow::saveFile() {
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "../TP2/files", tr("All Files (*)"));
+    QFile file(fileName);
+    file.open(QIODevice::WriteOnly);
+    QDataStream stream(&file);
+    QList<Shape> liste = drawZone->getList();
+    stream << liste.size();
+    QList<Shape>::iterator i;
+    for (i = liste.begin(); i != liste.end(); i++) {
+        stream << (*i).path << (*i).pen;
+    }
+    qDebug() << "Saved the file " << qPrintable(fileName) << endl;
+}
+
+void MainWindow::quitApp() {
+    int reponse = QMessageBox::question(this, "Quit", "Voulez-vous vraiment quitter ?", QMessageBox::Yes | QMessageBox::No);
+    if (reponse == QMessageBox::Yes){
+        qDebug() << "Quit" << endl;
+        QApplication::quit();
+    }
+}
+
+void MainWindow::style(QAction* sender) {
+    if (sender == style1){
+        drawZone->style(SOLIDLINE);
+    }
+    else if (sender == style2) {
+        drawZone->style(DASHLINE);
+    }
+    else if (sender == style3) {
+        drawZone->style(DOTLINE);
+    }
+}
+
+void MainWindow::color(QAction* sender) {
+    if (sender == rouge){
+        drawZone->color(ROUGE);
+    }
+    else if (sender == bleu) {
+        drawZone->color(BLEU);
+    }
+    else if (sender == vert) {
+        drawZone->color(VERT);
+    }
+    else if (sender == noir) {
+        drawZone->color(NOIR);
+    }
+}
+
+void MainWindow::width(QAction* sender) {
+    if (sender == width1){
+        drawZone->width(WIDTH1);
+    }
+    else if (sender == width2) {
+        drawZone->width(WIDTH2);
+    }
+    else if (sender == width3) {
+        drawZone->width(WIDTH3);
+    }
+}
+
+void MainWindow::deleteShape(QAction * sender) {
+    if (sender == delete1){
+        drawZone->deleteShape(DELETE1);
+    }
+    else if (sender == deleteAll) {
+        drawZone->deleteShape(DELETEALL);
+    }
+}
+
+void MainWindow::changeShape(QAction * sender) {
+    if (sender == trait) {
+        drawZone->changeShape(TRAIT);
+    }
+    else if (sender == rectangle) {
+        drawZone->changeShape(RECTANGLE);
+    }
+    else if (sender == ellipse) {
+        drawZone->changeShape(ELLIPSE);
+    }
+    else if (sender == polyline) {
+        drawZone->changeShape(POLYLINE);
+    }
+    else if (sender == polygone) {
+        drawZone->changeShape(POLYGONE);
+    }
+    else if (sender == selection) {
+        drawZone->changeShape(SELECTION);
+    }
+}
