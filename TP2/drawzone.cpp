@@ -1,6 +1,7 @@
 #include "drawzone.h"
 
 DrawZone::DrawZone(QWidget *parent) : QWidget(parent) {
+    selectionBool = false;
     this->setMouseTracking(true);
     this->setMinimumSize(400, 400);
     lineStyle = Qt::SolidLine;
