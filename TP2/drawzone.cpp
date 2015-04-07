@@ -89,7 +89,7 @@ DrawZone::~DrawZone() {
 void DrawZone::paintEvent(QPaintEvent * e) {
     QWidget::paintEvent(e);
     QPainter painter(this);
-    painter.setPen(QPen(lineColor, lineWidth, lineStyle, Qt::SquareCap, Qt::BevelJoin));
+    painter.setPen(QPen(lineColor, lineWidth, lineStyle, Qt::RoundCap, Qt::BevelJoin));
 
     painter.drawPath(currentPath);
     painter.drawLine(tempPolyLine);
@@ -146,7 +146,7 @@ void DrawZone::endTrait() {
     painterPath.moveTo(debut.x(), debut.y());
     painterPath.lineTo(fin.x(), fin.y());
     struct Shape shape;
-    shape.pen = QPen(lineColor, lineWidth, lineStyle, Qt::SquareCap, Qt::BevelJoin);
+    shape.pen = QPen(lineColor, lineWidth, lineStyle, Qt::RoundCap, Qt::BevelJoin);
     shape.path = painterPath;
     displayList.append(shape);
     update();
@@ -158,7 +158,7 @@ void DrawZone::endRectangle() {
     fin = cursorPos(this);
     painterPath.addRect(debut.x(), debut.y(), fin.x()-debut.x(), fin.y()-debut.y());
     struct Shape shape;
-    shape.pen = QPen(lineColor, lineWidth, lineStyle, Qt::SquareCap, Qt::BevelJoin);
+    shape.pen = QPen(lineColor, lineWidth, lineStyle, Qt::RoundCap, Qt::BevelJoin);
     shape.path = painterPath;
     displayList.append(shape);
     update();
@@ -170,7 +170,7 @@ void DrawZone::endEllipse() {
     fin = cursorPos(this);
     painterPath.addEllipse(debut.x(), debut.y(), fin.x()-debut.x(), fin.y()-debut.y());
     struct Shape shape;
-    shape.pen = QPen(lineColor, lineWidth, lineStyle, Qt::SquareCap, Qt::BevelJoin);
+    shape.pen = QPen(lineColor, lineWidth, lineStyle, Qt::RoundCap, Qt::BevelJoin);
     shape.path = painterPath;
     displayList.append(shape);
     update();
@@ -185,7 +185,7 @@ void DrawZone::newLine() {
 void DrawZone::endPolyline() {
     currentPath.lineTo(fin.x(), fin.y());
     struct Shape shape;
-    shape.pen = QPen(lineColor, lineWidth, lineStyle, Qt::SquareCap, Qt::BevelJoin);
+    shape.pen = QPen(lineColor, lineWidth, lineStyle, Qt::RoundCap, Qt::BevelJoin);
     shape.path = currentPath;
     displayList.append(shape);
     currentPath = QPainterPath();
@@ -198,7 +198,7 @@ void DrawZone::endPolygone() {
     currentPath.moveTo(fin.x(), fin.y());
     currentPath.lineTo(polyDebut.x(), polyDebut.y());
     struct Shape shape;
-    shape.pen = QPen(lineColor, lineWidth, lineStyle, Qt::SquareCap, Qt::BevelJoin);
+    shape.pen = QPen(lineColor, lineWidth, lineStyle, Qt::RoundCap, Qt::BevelJoin);
     shape.path = currentPath;
     displayList.append(shape);
     currentPath = QPainterPath();

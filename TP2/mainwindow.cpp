@@ -119,7 +119,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Slider
     QSlider * slider = new QSlider();
-    slider->setRange(0, 10);
+    slider->setRange(0, 20);
     slider->setOrientation(Qt::Horizontal);
     ui->toolBar_2->addWidget(slider);
     connect(slider, SIGNAL(valueChanged(int)), this, SLOT(widthUI(int)));

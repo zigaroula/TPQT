@@ -48,6 +48,7 @@ protected:
     virtual void paintEvent ( QPaintEvent* );
 
 private:
+    QPointF debugCurrentPath;
     QPoint polyDebut;
     QPoint debut;
     QPoint fin;
