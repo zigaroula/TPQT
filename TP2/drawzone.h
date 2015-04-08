@@ -34,15 +34,15 @@ class DrawZone : public QWidget {
 public:
     explicit DrawZone(QWidget *parent = 0);
     ~DrawZone();
-    void style(int);
-    void color(int);
-    void width(int);
-    void deleteShape(int);
-    void changeShape(int);
-    QList<Shape> getList();
-    void setShape(QPainterPath, QPen);
-    void setCouleur(QColor);
-    void setWidth(int);
+    void style(int); // Change le style du trait courant ou selectionne
+    void color(int); // Change la couleur du trait courant ou selectionne
+    void width(int); // Change l'epaisseur du trait courant ou selectionne
+    void deleteShape(int); // Supprime une ou plusieurs formes de la QList
+    void changeShape(int); // Change l'etat de la machine a etats
+    QList<Shape> getList(); // Renvoie la liste des formes (sert notemment a la serialisation)
+    void setShape(QPainterPath, QPen); // Change la forme (sert notemment a la serialisation)
+    void setCouleur(QColor); // Change la couleur courante (pop-up)
+    void setWidth(int); // Change l'epaisseur courante (slider)
 
 protected:
     virtual void paintEvent ( QPaintEvent* );
@@ -76,20 +76,20 @@ private:
 signals:
 
 public slots:
-    void setDebut();
-    void moveTrait();
-    void moveRectangle();
-    void moveEllipse();
-    void endTrait();
-    void endRectangle();
-    void endEllipse();
-    void movePoly();
-    void newLine();
-    void endPolyline();
-    void endPolygone();
-    void debutSelection();
-    void moveSelection();
-    void quitSelection();
+    void setDebut(); // Debut de toute forme
+    void moveTrait(); // Appele quand on déplace la souris
+    void moveRectangle(); // Appele quand on déplace la souris
+    void moveEllipse(); // Appele quand on déplace la souris
+    void endTrait(); // Appele quand on termine la forme
+    void endRectangle(); // Appele quand on termine la forme
+    void endEllipse(); // Appele quand on termine la forme
+    void movePoly(); // Appele quand on déplace la souris
+    void newLine(); // Appele quand on clique
+    void endPolyline(); // Appele quand on termine la forme
+    void endPolygone(); // Appele quand on termine la forme
+    void debutSelection(); // Appele quand on appuie sur le bouton
+    void moveSelection(); // Appele quand on déplace la souris
+    void quitSelection(); // Appele quand on relache la souris
 };
 
 #endif // DRAWZONE_H

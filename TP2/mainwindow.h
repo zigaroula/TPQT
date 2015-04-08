@@ -27,17 +27,17 @@ private:
     QColorDialog * colorDialog;
 
 public slots:
-    void openFile();
-    void saveFile();
-    void quitApp();
-    void style(QAction*);
-    void color(QAction*);
-    void width(QAction*);
-    void deleteShape(QAction*);
-    void changeShape(QAction*);
-    void colorUI();
-    void selectColor();
-    void widthUI(int);
+    void openFile(); // Ouvre des formes serialisees
+    void saveFile(); // Serialise des formes
+    void quitApp(); // Quitte l'application
+    void style(QAction*); // Change le style du trait
+    void color(QAction*); // Change la couleur du trait (menu)
+    void width(QAction*); // Change l'epaisseur du trait (menu)
+    void deleteShape(QAction*); // Suppression d'une ou de toutes les formes
+    void changeShape(QAction*); // Changement d'etat de la forme a tracer
+    void colorUI(); // Ouvre le pop-up permettant de changer la couleur
+    void selectColor(); // Change la couleur du trait (pop-up)
+    void widthUI(int); // Change l'epaisseur du trait (slider)
 };
 
 #endif // MAINWINDOW_H
