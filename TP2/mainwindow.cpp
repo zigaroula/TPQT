@@ -6,12 +6,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->setupUi(this);
     colorDialog = new QColorDialog();
-    QMenuBar * menuBar = this->menuBar( );
+    QMenuBar * menuBar = this->menuBar();
     QMenu * fileMenu = menuBar->addMenu( tr ("&Fichier") );
     QAction * open = new QAction( QIcon(":/icone/open.png"), tr("&Open..."), this);
     QAction * save = new QAction( QIcon(":/icone/save.png"), tr("&Save..."), this);
     QAction * quit = new QAction( QIcon(":/icone/quit.png"), tr("&Quit..."), this);
-    //QToolBar * toolBar = this->addToolBar( tr("Fichier") );
     drawZone = new DrawZone(this);
 
     setCentralWidget(drawZone);
@@ -37,9 +36,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     fileMenu->addAction(save);
     fileMenu->addAction(delete1);
     fileMenu->addAction(quit);
-    //toolBar->addAction(open);
-    //toolBar->addAction(save);
-    //toolBar->addAction(quit);
     connect(open, SIGNAL(triggered()), this, SLOT(openFile()));
     connect(save, SIGNAL(triggered()), this, SLOT(saveFile()));
     connect(quit, SIGNAL(triggered()), this, SLOT(quitApp()));
@@ -106,16 +102,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     shape->addAction(ellipse);
     shape->addAction(polyline);
     shape->addAction(polygone);
-    //toolBar->addAction(trait);
-    //toolBar->addAction(rectangle);
-    //toolBar->addAction(ellipse);
-    //toolBar->addAction(polyline);
-    //toolBar->addAction(polygone);
 
     // Selection
     selection = shapeGroup->addAction(QIcon(":/icone/cursor.png"), tr("&Selection"));
     shape->addAction(selection);
-    //toolBar->addAction(selection);
 
     // Slider
     QSlider * slider = new QSlider();

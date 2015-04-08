@@ -3,7 +3,7 @@
 DrawZone::DrawZone(QWidget *parent) : QWidget(parent) {
     selectionBool = false;
     this->setMouseTracking(true);
-    this->setMinimumSize(400, 400);
+    this->setMinimumSize(500, 500);
     lineStyle = Qt::SolidLine;
     lineWidth = 0;
     lineColor = QColor("#000000");
@@ -246,11 +246,13 @@ void DrawZone::width(int width) {
 void DrawZone::deleteShape(int deleteShape) {
     switch(deleteShape){
     case DELETE1:
-        displayList.removeLast();
-        debut = QPoint(0, 0);
-        fin = QPoint(0, 0);
-        update();
-        break;
+        if (!displayList.isEmpty()) {
+            displayList.removeLast();
+            debut = QPoint(0, 0);
+            fin = QPoint(0, 0);
+            update();
+            break;
+        }
     case DELETEALL:
         displayList.clear();
         debut = QPoint(0, 0);

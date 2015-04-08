@@ -18,7 +18,7 @@ Projet IHM - QT - Benjamin BONTEMPS
 
 Lancement : 
 
-Ouvrir le projet TP2.pro dans QtCreator.
+Ouvrir le projet TP2.pro dans QtCreator. Compiler. Executer.
 
 
 
@@ -41,4 +41,7 @@ La sauvegarde et l'ouverture de formes sérialisées se fait classiquement.
 Commentaires :
 
 Le clic droit pour arrêter les polylines et polygones me paraissait plus intuitif que le double-clic.
+La séléction avec un simple clic et pas avec une boîte rectangulaire me paraissait plus adaptée et plus dynamique.
+Il est impossible de selectionner une forme ayant été créée avant à l'intérieur d'une autre. Ceci pourrait être corrigé en faisant une rotation circulaire des formes à chaque clic pour séléctionner les suivantes.
+Les toolbars ont été réalisées avec QtDesigner (sauf pour le slider, car il est impossible de mettre un slider dans une toolbar avec QtDesigner) et les menus ont été réalisés directement dans le code, ceci pour montrer les deux aspects du TP.
 

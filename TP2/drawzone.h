@@ -48,19 +48,19 @@ protected:
     virtual void paintEvent ( QPaintEvent* );
 
 private:
-    QPointF debugCurrentPath;
-    QPoint polyDebut;
-    QPoint debut;
-    QPoint fin;
-    QColor lineColor;
-    qreal lineWidth;
-    Qt::PenStyle lineStyle;
-    QList<Shape> displayList;
-    QPainterPath currentPath;
-    QLine tempPolyLine;
-    QPainterPath selectionPath;
-    QList<Shape>::iterator indexSelection;
+    QPoint polyDebut; // Debut du trace, specifique aux polygones
+    QPoint debut; // Debut du trace
+    QPoint fin; // Fin du trace
+    QColor lineColor; // Couleur
+    qreal lineWidth; // Epaisseur
+    Qt::PenStyle lineStyle; // Style
+    QList<Shape> displayList; // Liste des formes
+    QPainterPath currentPath; // Forme courante
+    QLine tempPolyLine; // Sert pour la polyline et le polygone
+    QPainterPath selectionPath; // Marge d'erreur pour la selection
+    QList<Shape>::iterator indexSelection; // Index de la forme selectionnee dans la liste
 
+    // Machine a etat
     QStateMachine * machine;
     QState * forme;
     QState * trait,  * rectangle, * ellipse, * polyline, * polygone, * selection;
@@ -71,7 +71,7 @@ private:
     QState * polygoneClick, * polygoneMove;
     QState * selectionClick, * selectionMove;
 
-    bool selectionBool;
+    bool selectionBool; // Boolean pour savoir si on est en train de selectionner une forme
 
 signals:
 
