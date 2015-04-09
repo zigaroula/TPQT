@@ -13,6 +13,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QAction * quit = new QAction( QIcon(":/icone/quit.png"), tr("&Quit..."), this);
     drawZone = new DrawZone(this);
 
+    QPalette Pal(palette());
+    Pal.setColor(QPalette::Background, Qt::white);
+    drawZone->setAutoFillBackground(true);
+    drawZone->setPalette(Pal);
     setCentralWidget(drawZone);
 
     // Suppression
