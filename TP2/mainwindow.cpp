@@ -113,6 +113,30 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     slider->setOrientation(Qt::Horizontal);
     ui->toolBar_2->addWidget(slider);
     connect(slider, SIGNAL(valueChanged(int)), this, SLOT(widthUI(int)));
+
+    // Menu circulaire
+    menuCirculaire = new QWidget(this);
+    menuCirculaire->setGeometry(0, 0, 140, 140);
+    menuCirculaire->setVisible(false);
+    boutonSe = new QToolButton(menuCirculaire);
+    boutonSe->setDefaultAction(ui->actionSelection);
+    boutonSe->setGeometry(50,10,40,40);
+    boutonTr = new QToolButton(menuCirculaire);
+    boutonTr->setDefaultAction(ui->actionTrait);
+    boutonTr->setGeometry(90,30,40,40);
+    boutonRe = new QToolButton(menuCirculaire);
+    boutonRe->setDefaultAction(ui->actionRectangle);
+    boutonRe->setGeometry(90,70,40,40);
+    boutonEl = new QToolButton(menuCirculaire);
+    boutonEl->setDefaultAction(ui->actionEllipse);
+    boutonEl->setGeometry(50,90,40,40);
+    boutonPl = new QToolButton(menuCirculaire);
+    boutonPl->setDefaultAction(ui->actionPolyline);
+    boutonPl->setGeometry(10,70,40,40);
+    boutonPg = new QToolButton(menuCirculaire);
+    boutonPg->setDefaultAction(ui->actionPolygone);
+    boutonPg->setGeometry(10,30,40,40);
+
 }
 
 MainWindow::~MainWindow() {
@@ -207,6 +231,7 @@ void MainWindow::deleteShape(QAction * sender) {
 }
 
 void MainWindow::changeShape(QAction * sender) {
+    menuCirculaire->setVisible(false);
     if (sender == trait || sender == ui->actionTrait) {
         drawZone->changeShape(TRAIT);
     }
@@ -239,4 +264,11 @@ void MainWindow::selectColor() {
 
 void MainWindow::widthUI(int width) {
     drawZone->setWidth(width);
+}
+
+void MainWindow::mousePressEvent(QMouseEvent * e) {
+    if (e->buttons() == Qt::MiddleButton) {
+        menuCirculaire->move(e->x() - 70, e->y() - 70);
+        menuCirculaire->setVisible(true);
+    }
 }

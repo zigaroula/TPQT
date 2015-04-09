@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "drawzone.h"
+#include <QToolButton>
 
 namespace Ui {
 class MainWindow;
@@ -14,6 +15,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     void closeEvent(QCloseEvent * event) { event->ignore(); quitApp(); }
+    void mousePressEvent(QMouseEvent *);
     ~MainWindow();
     
 private:
@@ -25,6 +27,8 @@ private:
     QAction* delete1, * nouveau;
     QAction* trait, * rectangle, * ellipse, * polyline, * polygone, *selection;
     QColorDialog * colorDialog;
+    QWidget * menuCirculaire;
+    QToolButton * boutonSe, * boutonTr, * boutonRe, * boutonEl, * boutonPl, * boutonPg;
 
 public slots:
     void openFile(); // Ouvre des formes serialisees
